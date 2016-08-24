@@ -22,6 +22,8 @@
              comb-n
              pluck ])
 
+(def filters [rlpf lpf nil])
+
 (def delay-ugens
   [delay1 delay-n delay-l delay-c comb-n comb-l
    comb-c allpass-n allpass-l allpass-c])
@@ -33,6 +35,8 @@
         envelope (choose envs)
         effect (choose delay-ugens)
 
+        cutoff (choose [(note :c2) (note :c3) (note :c4) (note :c5)])
+        filter (choose filters)
         attack (rand)
         release (rand)]
     (println (map :name waves))
@@ -42,6 +46,7 @@
               all-waves (map (fn [w] (w freq)) waves)
               src (mix all-waves)
               src (effect src)
+              src (if filter (filter src (midicps cutoff)) src)
               env (env-gen (envelope attack release) :action FREE)]
           (* src env))))))
 
