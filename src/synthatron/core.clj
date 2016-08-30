@@ -1,5 +1,6 @@
 (ns synthatron.core
-  (:use [overtone.live]))
+  (:use [overtone.live])
+  (:require [clojure.test.check.generators :as gen]))
 
 (def waves [sin-osc
             pulse
@@ -54,3 +55,5 @@
   (def new-synth (synth-builder))
   (new-synth :note (note :F#3)))
 ;;(kill n)
+
+;;gen/generate waves
